@@ -1,3 +1,11 @@
 /required-list
 /xhost-mkfrag
+libiberty/Makefile
+libiberty/config.log
+libiberty/config.status
+libiberty/config.h
+libiberty/stamp-h
+build/
+bBuild/
+Build/
 *.swp
