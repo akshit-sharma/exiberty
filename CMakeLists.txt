@@ -18,22 +18,31 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 #   COMMAND 
 #   )
 
-include(ExternalProject)
-ExternalProject_Add(libiberty
-  SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/libiberty
-  CONFIGURE_COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/libiberty/configure --prefix=${CMAKE_CURRENT_BINARY_DIR}/libiberty
-  BUILD_COMMAND ${MAKE}
-  )
+# include(ExternalProject)
+# ExternalProject_Add(libiberty
+#   SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/libiberty
+#   CONFIGURE_COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/libiberty/configure --prefix=${CMAKE_CURRENT_BINARY_DIR}/libiberty
+#   BUILD_COMMAND ${MAKE}
+#   )
 
 add_library(GCC_EXTRACTED.IBERTY STATIC IMPORTED)
 
-set_property(TARGET GCC_EXTRACTED.IBERTY PROPERTY IMPORTED_LOCATION ${CMAKE_CURRENT_BINARY_DIR}/libiberty-prefix/src/libiberty-build/libiberty.a)
+# target_include_directories(GCC_EXTRACTED.IBERTY SYSTEM PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
+# target_link_libraries(GCC_EXTRACTED.IBERTY PUBLIC ${CMAKE_CURRENT_BINARY_DIR}/libiberty-prefix/src/libiberty-build/libiberty.a)
+
+set_target_properties(GCC_EXTRACTED.IBERTY PROPERTIES IMPORTED_LOCATION ${CMAKE_CURRENT_BINARY_DIR}/libiberty-prefix/src/libiberty-build/libiberty.a)
 
 set_target_properties(GCC_EXTRACTED.IBERTY PROPERTIES IMPORTED_GLOBAL TRUE)
 
+# add_custom_command(TARGET GCC_EXTRACTED.IBERTY
+#   COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/libiberty/configure --prefix=${CMAKE_CURRENT_BINARY_DIR}/libiberty)
+
+# add_custom_command(TARGET GCC_EXTRACTED.IBERTY
+#   COMMAND ${MAKE})
+
 add_library(GCC_EXTRACTED::IBERTY ALIAS GCC_EXTRACTED.IBERTY)
 
-#
+
 # add_library(GCC_EXTRACTED.IBERTY OBJECT)
 #
 # target_sources(GCC_EXTRACTED.IBERTY PRIVATE libiberty/dummy.cpp )
