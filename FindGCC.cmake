@@ -1,3 +1,5 @@
+# This is just for getting iberty module from GCC
+
 if (TARGET GCC::iberty)
   return()
 endif()
