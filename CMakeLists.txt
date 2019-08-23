@@ -1,12 +1,34 @@
 cmake_minimum_required(VERSION 3.11)
 
-project(GCC_EXTRACTED)
+project(GCC_EXTRACT)
 
-include(ExternalProject)
-ExternalProject_Add(GCC_EXTRACTED_IBERTY
-  SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/libiberty 
-  CONFIGURE_COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/libiberty/configure --prefix=${CMAKE_CURRENT_BINARY_DIR}/libiberty
-  BUILD_COMMAND ${MAKE}
-  INSTALL_COMMAND ""
-) 
+message(STATUS "value is ${CMAKE_CURRENT_BINARY_DIR}/libiberty") 
+
+execute_process(
+  COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/libiberty/configure --prefix=${CMAKE_CURRENT_BINARY_DIR}/libiberty
+  WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+  RESULT_VARIABLE CONFIG_RESULT
+  )
+
+if (NOT CONFIG_RESULT EQUAL "0")
+  message(FATAL_ERROR "${CMAKE_CURRENT_SOURCE_DIR}/libiberty/configure --prefix=${CMAKE_CURRENT_BINARY_DIR}/libiberty in WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR} failed with ${CONFIG_RESULT}")
+endif()
+
+execute_process(COMMAND make
+  WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+  RESULT_VARIABLE MAKE_RESULT
+  )
+
+if (NOT MAKE_RESULT EQUAL "0")
+  message(FATAL_ERROR "make in WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR} failed with ${CONFIG_RESULT}")
+endif()
+
+
+# include(ExternalProject)
+# ExternalProject_Add(GCC_EXTRACTED_IBERTY
+#   SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/libiberty 
+#   CONFIGURE_COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/libiberty/configure --prefix=${CMAKE_CURRENT_BINARY_DIR}/libiberty
+#   BUILD_COMMAND ${MAKE}
+#   INSTALL_COMMAND ""
+# ) 
 
