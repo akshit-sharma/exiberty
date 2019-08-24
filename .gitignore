@@ -5,6 +5,11 @@ libiberty/config.log
 libiberty/config.status
 libiberty/config.h
 libiberty/stamp-h
+libiberty/required-list
+libiberty/stamp-noasandir
+libiberty/stamp-picdir
+libiberty/*.o
+libiberty/*.a
 build/
 bBuild/
 Build/

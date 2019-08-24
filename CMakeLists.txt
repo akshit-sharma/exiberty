@@ -31,8 +31,11 @@ endif()
 include(ExternalProject)
 ExternalProject_Add(GCC_EXTRACTED_IBERTY
   SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/libiberty 
-  CONFIGURE_COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/libiberty/configure --prefix=${CMAKE_CURRENT_BINARY_DIR}/libiberty
-  BUILD_COMMAND ${MAKE}
+  BINARY_DIR ${CMAKE_CURRENT_BINARY_DIR}/libiberty
+  UPDATE_COMMAND echo "1" #  ${CMAKE_CURRENT_SOURCE_DIR}/libiberty/configure --prefix=${CMAKE_CURRENT_BINARY_DIR}/libiberty
+  CONFIGURE_COMMAND echo "hello" # ${MAKE} -C ${CMAKE_CURRENT_BINARY_DIR}
+  # CONFIGURE_COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/libiberty/configure --prefix=${CMAKE_CURRENT_BINARY_DIR}/libiberty
+  # BUILD_COMMAND ${MAKE} -C ${CMAKE_CURRENT_BINARY_DIR}
   INSTALL_COMMAND ""
 ) 
 
@@ -48,6 +51,9 @@ find_library(GCC_IBERTY_LIBRARY iberty
   HINTS ${CMAKE_CURRENT_BINARY_DIR}) # ${CMAKE_CURRENT_BINARY_DIR}/.../src/.../libiberty.a)
 find_package_handle_standard_args(GCC_EXTRACT::iberty
   REQUIRED_VARS GCC_IBERTY_INCLUDE_DIRS GCC_IBERTY_LIBRARY)
+
+message(STATUS "Value of include and libs ${GCC_IBERTY_INCLUDE_DIRS} and ${GCC_IBERTY_LIBRARY} " )
+
 
 set_target_properties(GCC_EXTRACT::iberty PROPERTIES
   IMPORTED_LOCATION             ${GCC_IBERTY_LIBRARY}
